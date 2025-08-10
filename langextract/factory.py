@@ -1,4 +1,5 @@
 # Copyright 2025 Google LLC.
+# Copyright 2025 Triarca Tech
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -67,6 +68,9 @@ def _kwargs_with_environment_defaults(
     env_vars_by_provider = {
         "gemini": ("GEMINI_API_KEY", "LANGEXTRACT_API_KEY"),
         "gpt": ("OPENAI_API_KEY", "LANGEXTRACT_API_KEY"),
+        "claude": ("ANTHROPIC_API_KEY", "LANGEXTRACT_API_KEY"),
+        "mistral": ("MISTRAL_API_KEY", "LANGEXTRACT_API_KEY"),
+        "grok": ("GROK_API_KEY", "XAI_API_KEY", "LANGEXTRACT_API_KEY"),
     }
 
     for provider_prefix, env_vars in env_vars_by_provider.items():

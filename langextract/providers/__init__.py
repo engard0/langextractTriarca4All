@@ -1,4 +1,5 @@
 # Copyright 2025 Google LLC.
+# Copyright 2025 Triarca Tech
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -79,6 +80,21 @@ from langextract.providers import ollama  # noqa: F401
 
 try:
   from langextract.providers import openai  # noqa: F401
+except ImportError:
+  pass
+
+try:
+  from langextract.providers import anthropic  # noqa: F401
+except ImportError:
+  pass
+
+try:
+  from langextract.providers import mistral  # noqa: F401
+except ImportError:
+  pass
+
+try:
+  from langextract.providers import grok  # noqa: F401
 except ImportError:
   pass
 

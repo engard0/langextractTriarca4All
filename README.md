@@ -4,7 +4,7 @@
   </a>
 </p>
 
-# LangExtract
+# LangExtractTriarca4All
 
 [![PyPI version](https://img.shields.io/pypi/v/langextract.svg)](https://pypi.org/project/langextract/)
 [![GitHub stars](https://img.shields.io/github/stars/google/langextract.svg?style=social&label=Star)](https://github.com/google/langextract)
@@ -29,9 +29,11 @@
 
 ## Introduction
 
-LangExtract is a Python library that uses LLMs to extract structured information from unstructured text documents based on user-defined instructions. It processes materials such as clinical notes or reports, identifying and organizing key details while ensuring the extracted data corresponds to the source text.
+LangExtractTriarca4All is a derivative work based on [LangExtract](https://github.com/google/langextract) by Google LLC, extended with additional LLM provider support. This version adds support for Anthropic (Claude), Mistral, and XAI (Grok) models while maintaining full compatibility with the original LangExtract API.
 
-## Why LangExtract?
+LangExtractTriarca4All is a Python library that uses LLMs to extract structured information from unstructured text documents based on user-defined instructions. It processes materials such as clinical notes or reports, identifying and organizing key details while ensuring the extracted data corresponds to the source text.
+
+## Why LangExtractTriarca4All?
 
 1.  **Precise Source Grounding:** Maps every extraction to its exact location in the source text, enabling visual highlighting for easy traceability and verification.
 2.  **Reliable Structured Outputs:** Enforces a consistent output schema based on your few-shot examples, leveraging controlled generation in supported models like Gemini to guarantee robust, structured results.
@@ -204,6 +206,9 @@ Get API keys from:
 *   [AI Studio](https://aistudio.google.com/app/apikey) for Gemini models
 *   [Vertex AI](https://cloud.google.com/vertex-ai/generative-ai/docs/sdks/overview) for enterprise use
 *   [OpenAI Platform](https://platform.openai.com/api-keys) for OpenAI models
+*   [Anthropic Console](https://console.anthropic.com/settings/keys) for Anthropic models
+*   [Mistral Platform](https://console.mistral.ai/api-keys/) for Mistral models
+*   [XAI Console](https://console.x.ai/) for Grok models
 
 ### Setting up API key in your environment
 
@@ -211,6 +216,19 @@ Get API keys from:
 
 ```bash
 export LANGEXTRACT_API_KEY="your-api-key-here"
+```
+
+You can also set provider-specific environment variables:
+
+```bash
+# For Anthropic models
+export ANTHROPIC_API_KEY="your-anthropic-api-key"
+
+# For Mistral models
+export MISTRAL_API_KEY="your-mistral-api-key"
+
+# For Grok models
+export XAI_API_KEY="your-xai-api-key"
 ```
 
 **Option 2: .env File (Recommended)**
@@ -273,6 +291,66 @@ result = lx.extract(
 
 Note: OpenAI models require `fence_output=True` and `use_schema_constraints=False` because LangExtract doesn't implement schema constraints for OpenAI yet.
 
+## Using Anthropic Models
+
+LangExtract supports Anthropic models (requires optional dependency: `pip install langextract[anthropic]`):
+
+```python
+import langextract as lx
+
+result = lx.extract(
+    text_or_documents=input_text,
+    prompt_description=prompt,
+    examples=examples,
+    model_id="claude-3-5-sonnet-latest",  # Automatically selects Anthropic provider
+    api_key=os.environ.get('ANTHROPIC_API_KEY'),
+    fence_output=True,
+    use_schema_constraints=False
+)
+```
+
+Note: Anthropic models require `fence_output=True` and `use_schema_constraints=False` because LangExtract doesn't implement schema constraints for Anthropic yet.
+
+## Using Mistral Models
+
+LangExtract supports Mistral models (requires optional dependency: `pip install langextract[mistral]`):
+
+```python
+import langextract as lx
+
+result = lx.extract(
+    text_or_documents=input_text,
+    prompt_description=prompt,
+    examples=examples,
+    model_id="mistral-large-latest",  # Automatically selects Mistral provider
+    api_key=os.environ.get('MISTRAL_API_KEY'),
+    fence_output=True,
+    use_schema_constraints=False
+)
+```
+
+Note: Mistral models require `fence_output=True` and `use_schema_constraints=False` because LangExtract doesn't implement schema constraints for Mistral yet.
+
+## Using Grok (XAI) Models
+
+LangExtract supports Grok models from XAI (requires optional dependency: `pip install langextract[openai]`):
+
+```python
+import langextract as lx
+
+result = lx.extract(
+    text_or_documents=input_text,
+    prompt_description=prompt,
+    examples=examples,
+    model_id="grok-beta",  # Automatically selects Grok provider
+    api_key=os.environ.get('XAI_API_KEY'),
+    fence_output=True,
+    use_schema_constraints=False
+)
+```
+
+Note: Grok models require `fence_output=True` and `use_schema_constraints=False` because LangExtract doesn't implement schema constraints for Grok yet.
+
 ## Using Local LLMs with Ollama
 
 LangExtract supports local inference using Ollama, allowing you to run models without API keys:
@@ -318,6 +396,12 @@ LangExtract excels at extracting structured medical information from clinical te
 Explore RadExtract, a live interactive demo on HuggingFace Spaces that shows how LangExtract can automatically structure radiology reports. Try it directly in your browser with no setup required.
 
 **[View RadExtract Demo →](https://huggingface.co/spaces/google/radextract)**
+
+### Using Different LLM Providers
+
+Learn how to use LangExtract with various LLM providers including Anthropic, Mistral, and Grok in our comprehensive example.
+
+**[View Comprehensive Provider Example →](comprehensive_provider_example.py)**
 
 ## Contributing
 
